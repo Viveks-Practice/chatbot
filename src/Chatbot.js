@@ -1,3 +1,7 @@
+import ChatButton from "./components/ChatButton";
+import ChatHeader from "./components/ChatHeader";
+import ChatMessages from "./components/ChatMessages";
+import ChatInput from "./components/ChatInput";
 const React = require("react");
 const { createRoot } = require("react-dom");
 const { useState, useEffect, useRef } = require("react");
@@ -30,59 +34,18 @@ const Chatbot = () => {
 
   return (
     <div className="chat-interface">
-      <button
-        className={`chat-button ${isOpen ? "hide" : ""}`}
-        onClick={toggleChat}
-        aria-label="Toggle Chat"
-      >
-        {/* You can use an emoji or an icon library like Font Awesome for a chat icon here */}
-        💬
-      </button>
-
+      <ChatButton isOpen={isOpen} toggleChat={toggleChat} />
       <div className={`chat-container ${isOpen ? "open" : "closed"}`}>
+        {isOpen && <ChatHeader toggleChat={toggleChat} />}
         {isOpen && (
-          <div className="chat-header">
-            <h2 className="chat-title">Neo</h2>
-            <button className="close-button" onClick={toggleChat}>
-              &times;
-            </button>
-          </div>
+          <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
         )}
         {isOpen && (
-          <div className="chat-messages">
-            {messages.map((message, index) => (
-              <div key={index} className={`chat-message ${message.sender}`}>
-                {message.text}
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-        )}
-        {isOpen && (
-          <div className="chat-input">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault(); // Prevents the default form submission behavior
-                if (input.trim() !== "") {
-                  handleSend();
-                }
-              }}
-            >
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && input.trim() !== "") {
-                    handleSend();
-                    e.preventDefault(); // Prevents the default behavior
-                  }
-                }}
-                placeholder="Type your message..."
-              />
-              <button type="submit">Send</button>
-            </form>
-          </div>
+          <ChatInput
+            input={input}
+            setInput={setInput}
+            handleSend={handleSend}
+          />
         )}
       </div>
     </div>

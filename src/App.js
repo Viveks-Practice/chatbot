@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-// import Chatbot from "./Chatbot";
+import Chatbot from "./Chatbot";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           Learn React
         </a>
       </header>
-      {/* <Chatbot /> */}
+      <Chatbot />
     </div>
   );
 }
