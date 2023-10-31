@@ -2,10 +2,10 @@ import ChatButton from "./components/ChatButton";
 import ChatHeader from "./components/ChatHeader";
 import ChatMessages from "./components/ChatMessages";
 import ChatInput from "./components/ChatInput";
-const React = require("react");
-const { createRoot } = require("react-dom");
-const { useState, useEffect, useRef } = require("react");
-require("./Chatbot.css");
+import { createRoot } from "react-dom/client";
+import React, { useState, useEffect, useRef } from "react";
+import "./Chatbot.css";
+import handleSendFunction from "./functions/handleSend";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false); // State to manage if chat is open or closed
@@ -26,28 +26,38 @@ const Chatbot = () => {
 
   const toggleChat = () => setIsOpen(!isOpen); // Function to toggle chat open/close
 
-  const handleSend = () => {
-    if (input.trim() === "") return;
-    setMessages([...messages, { text: input, sender: "user" }]); // new message at the end
-    setInput("");
-  };
+  /**
+   * Sends a user's message to a cloud function for processing and appends the AI's response to the chat.
+   *
+   * @param {string} input - The current input value from the user.
+   * @param {function} setInput - A setter function to update the input state.
+   * @param {array} messages - An array of current chat messages.
+   * @param {function} setMessages - A setter function to update the messages state.
+   *
+   * - If the user's input is empty, the function exits without further processing.
+   * - Appends the user's message to the chat.
+   * - Makes an asynchronous HTTP request to the specified cloud function endpoint with the user's message.
+   * - On a successful response from the cloud function, appends the AI's response to the chat.
+   * - In case of an error in the HTTP request, appends an error message to the chat.
+   * - Resets the user input field to an empty string.
+   */
+  const sendHandler = () =>
+    handleSendFunction(input, setInput, messages, setMessages);
 
   return (
     <div className="chat-interface">
       <ChatButton isOpen={isOpen} toggleChat={toggleChat} />
-      <div className={`chat-container ${isOpen ? "open" : "closed"}`}>
-        {isOpen && <ChatHeader toggleChat={toggleChat} />}
-        {isOpen && (
+      {isOpen && (
+        <div className="chat-container open">
+          <ChatHeader toggleChat={toggleChat} />
           <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
-        )}
-        {isOpen && (
           <ChatInput
             input={input}
             setInput={setInput}
-            handleSend={handleSend}
+            handleSend={sendHandler}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

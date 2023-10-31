@@ -1,3 +1,5 @@
+import React from "react";
+
 const ChatButton = ({ isOpen, toggleChat }) => (
   <button
     className={`chat-button ${isOpen ? "hide" : ""}`}

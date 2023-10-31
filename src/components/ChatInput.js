@@ -1,3 +1,5 @@
+import React from "react";
+
 const ChatInput = ({ input, setInput, handleSend }) => (
   <div className="chat-input">
     <form
