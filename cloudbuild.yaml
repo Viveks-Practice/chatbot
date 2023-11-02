@@ -1,0 +1,19 @@
+steps:
+  # Install dependencies
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["install"]
+
+  # Build the production bundle with webpack
+  - name: "node"
+    entrypoint: "npx"
+    args: ["webpack", "--config", "webpack.config.js", "--mode", "production"]
+
+  # Optional: Deploy the built files to Google Cloud Storage
+  - name: "gcr.io/cloud-builders/gsutil"
+    args: ["cp", "./dist/*", "gs://YOUR_BUCKET_NAME/where-you-want-to-store/"]
+
+# Define the artifacts to be available after the build completes
+artifacts:
+  objects:
+    location: "gs://YOUR_BUCKET_NAME/where-you-want-to-store/"
+    paths: ["./dist/*"]
