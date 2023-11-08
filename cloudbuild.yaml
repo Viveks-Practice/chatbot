@@ -10,7 +10,12 @@ steps:
 
   # Optional: Deploy the built files to Google Cloud Storage
   - name: "gcr.io/cloud-builders/gsutil"
-    args: ["cp", "./dist/*", "gs://YOUR_BUCKET_NAME/where-you-want-to-store/"]
+    args:
+      [
+        "cp",
+        "./dist/*",
+        "gs://chat-window-widget-leaf-tech/chat-widget-builds/",
+      ]
 
 # Define the artifacts to be available after the build completes
 artifacts:
