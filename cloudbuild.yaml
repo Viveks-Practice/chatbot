@@ -20,5 +20,5 @@ steps:
 # Define the artifacts to be available after the build completes
 artifacts:
   objects:
-    location: "gs://YOUR_BUCKET_NAME/where-you-want-to-store/"
+    location: "gs://chat-window-widget-leaf-tech/cloud-build-triggers/"
     paths: ["./dist/*"]
