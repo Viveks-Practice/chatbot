@@ -14,6 +14,8 @@
  * - Resets the user input field to an empty string.
  */
 
+import getConfig from "../config";
+
 const handleSend = async (input, setInput, messages, setMessages) => {
   if (input.trim() === "") return;
 
@@ -28,6 +30,8 @@ const handleSend = async (input, setInput, messages, setMessages) => {
   // Create a new object with all previous messages + the new user message
   const updatedMessages = [...messages, newUserMessage];
 
+  const config = getConfig();
+
   try {
     const response = await fetch(
       //   "https://us-central1-chat-window-widget.cloudfunctions.net/chatBotGPTChatFunction3",
@@ -38,7 +42,11 @@ const handleSend = async (input, setInput, messages, setMessages) => {
           "Content-Type": "application/json",
           // 'Authorization': 'Bearer YOUR_STATIC_IDENTITY_TOKEN',
         },
-        body: JSON.stringify({ messages: updatedMessages }), // Sending the whole updatedMessages array
+        body: JSON.stringify({
+          messages: updatedMessages,
+          aiModel: config.GPT_VARIANT, // Passed as part of the request body
+          systemMessage: config.GPT_SYSTEM_MESSAGE, // Passed as part of the request body
+        }), // Sending the whole updatedMessages array
       }
     );
 
