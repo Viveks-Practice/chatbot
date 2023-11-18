@@ -35,7 +35,7 @@ const handleSend = async (input, setInput, messages, setMessages) => {
   try {
     const response = await fetch(
       //   "https://us-central1-chat-window-widget.cloudfunctions.net/chatBotGPTChatFunction3",
-      "https://us-central1-chat-window-widget.cloudfunctions.net/starminingGPT",
+      "https://us-central1-chat-window-widget.cloudfunctions.net/gpt-ai-request",
       {
         method: "POST",
         headers: {
