@@ -2,7 +2,7 @@ import React from "react";
 
 const ChatHeader = ({ toggleChat }) => (
   <div className="chat-header">
-    <h2 className="chat-title">Neo</h2>
+    <h2 className="chat-title">Soil Tracker AI</h2>
     <button className="close-button" onClick={toggleChat}>
       &times;
     </button>
