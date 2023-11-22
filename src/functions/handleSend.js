@@ -31,6 +31,20 @@ const handleSend = async (input, setInput, messages, setMessages) => {
   const updatedMessages = [...messages, newUserMessage];
 
   const config = getConfig();
+  // Define default values
+  const defaultAiIdentifier = "ft:gpt-3.5-turbo-0613:personal::8AicazxS";
+  const defaultSystemMessage =
+    "You are an assistant representative of the StarMining company. Your sole purpose is to market Starmining's products and services and inform the client to hopefully get them onboard with Starmining's services. Even if they don't choose to buy our products/services now, they will ideally have us in mind and potentially refer us to another client, or come back another time to buy our services!";
+
+  // Check and set the values conditionally
+  const aiVariant =
+    config.GPT_VARIANT === "ai_model_00"
+      ? defaultAiIdentifier
+      : config.GPT_VARIANT;
+  const systemMessageValue =
+    config.GPT_SYSTEM_MESSAGE === "system_message_00"
+      ? defaultSystemMessage
+      : config.GPT_SYSTEM_MESSAGE;
 
   try {
     const response = await fetch(
@@ -44,8 +58,8 @@ const handleSend = async (input, setInput, messages, setMessages) => {
         },
         body: JSON.stringify({
           messages: updatedMessages,
-          aiModel: config.GPT_VARIANT, // Passed as part of the request body
-          systemMessage: config.GPT_SYSTEM_MESSAGE, // Passed as part of the request body
+          aiModel: aiVariant, // Passed as part of the request body
+          systemMessage: systemMessageValue, // Passed as part of the request body
         }), // Sending the whole updatedMessages array
       }
     );
